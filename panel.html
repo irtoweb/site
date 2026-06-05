@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -53,7 +52,7 @@
 <body class="text-gray-800">
 
 <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbxYDnr9sYfFnQZUcgqNJ1Yj2j6CMK_3R8itywi-F9_GpTS23rLqBqDx4J6rVp60Pw6a/exec"; 
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzz3vPtWqzsUA7J3KRvcMR4QxMgFF_U-jcTBdZtu2RBUsJ1prZ5-ltw_TVZRorVmrMZ/exec"; 
 </script>
 
 <!-- نوار وضعیت اینترنت -->
@@ -970,22 +969,22 @@
     }
 
     function showUserProfile() {
-        if(globalUserInfo) {
-            Swal.fire({
-                title: '<i class="fas fa-user-circle text-blue-600 text-4xl mb-2"></i><br>پروفایل شما',
-                html: `
-                    <div class="text-right bg-gray-50 p-4 rounded-lg border text-sm leading-loose">
-                        <p><span class="font-bold text-gray-700">نام و نام خانوادگی:</span> ${globalUserInfo.name}</p>
-                        <p><span class="font-bold text-gray-700">کد ملی:</span> ${globalUserInfo.natCode}</p>
-                        <p><span class="font-bold text-gray-700">شماره تماس:</span> ${globalUserInfo.phone}</p>
-                    </div>
-                `,
-                confirmButtonText: 'بستن',
-                confirmButtonColor: '#3085d6'
-            });
-        } else {
-            Swal.fire('خطا', 'اطلاعات کاربر هنوز بارگذاری نشده است.', 'error');
-        }
+        let name = (globalUserInfo && globalUserInfo.name && globalUserInfo.name !== "undefined") ? globalUserInfo.name : 'نامشخص';
+        let natCode = (globalUserInfo && globalUserInfo.natCode) ? globalUserInfo.natCode : currentUser;
+        let phone = (globalUserInfo && globalUserInfo.phone && globalUserInfo.phone !== "undefined") ? globalUserInfo.phone : 'ثبت نشده';
+
+        Swal.fire({
+            title: '<i class="fas fa-user-circle text-blue-600 text-4xl mb-2"></i><br>پروفایل شما',
+            html: `
+                <div class="text-right bg-gray-50 p-4 rounded-lg border text-sm leading-loose">
+                    <p><span class="font-bold text-gray-700">نام و نام خانوادگی:</span> ${name}</p>
+                    <p><span class="font-bold text-gray-700">کد ملی:</span> <span dir="ltr">${natCode}</span></p>
+                    <p><span class="font-bold text-gray-700">شماره تماس:</span> <span dir="ltr">${phone}</span></p>
+                </div>
+            `,
+            confirmButtonText: 'بستن',
+            confirmButtonColor: '#3085d6'
+        });
     }
 
     window.onload = function() {
