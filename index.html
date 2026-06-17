@@ -155,6 +155,33 @@
             display: none; /* ابتدا مخفی است */
         }
 
+        /* ====== اسپینر جدید (نمایش آیکون با گردش دور آن) ====== */
+        .spinner-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner-ring {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 88px;
+            height: 88px;
+            border: 4px solid rgba(212, 175, 55, 0.3);
+            border-top: 4px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* ===================================================== */
+
         /* افکت شیشه‌ای (Glassmorphism) */
         .glass {
             background: rgba(255, 255, 255, 0.85);
@@ -252,20 +279,13 @@
 </head>
 <body class="text-gray-800 antialiased relative">
 
-    <!-- لودینگ صفحه با مکعب روبیک + قابلیت جایگزینی هوشمند با لوگو -->
+    <!-- لودینگ صفحه با نمایش آیکون (لوگو) و گردش دور آن -->
     <div id="preloader">
-        <div id="preloader-spinner" class="cube-wrapper">
-            <div class="cube">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face right"></div>
-                <div class="face left"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
-            </div>
+        <div id="preloader-spinner" class="spinner-container">
+            <div class="spinner-ring"></div>
+            <img id="preloader-logo" src="https://to-web.ir/image/logo.png" alt="ToWeb Logo" style="display:block; width:60px; height:auto; position:relative; z-index:1;">
         </div>
-        <!-- لوگو تنها در صورتی که زیر 150ms بارگذاری شود نمایش داده می‌شود -->
-        <img id="preloader-logo" src="https://to-web.ir/image/logo.png" alt="ToWeb Logo">
+        <!-- لوگو همیشه به‌صورت پیش‌فرض نمایش داده می‌شود و نیازی به تعویض با مکعب نیست -->
         <p class="text-brand-gold mt-4 font-bold tracking-widest text-sm">در حال آماده‌سازی...</p>
     </div>
 
@@ -689,13 +709,14 @@
                     if (!logoShown && !preloaderHidden) {
                         logoShown = true;
                         clearTimeout(logoLoadAttempt);
-                        // نمایش لوگو و مخفی‌سازی مکعب
-                        if (spinner) spinner.style.display = 'none';
-                        logoImg.style.display = 'block';
+                        // در نسخه جدید اسپینر، لوگو همیشه نمایش داده می‌شود و نیازی به مخفی کردن اسپینر نیست
+                        // لذا خطوط زیر کامنت می‌شوند تا تداخلی ایجاد نشود:
+                        // if (spinner) spinner.style.display = 'none';
+                        // logoImg.style.display = 'block';
                     }
                 };
                 logoImg.onerror = function() {
-                    // در صورت خطا، مکعب به کار خود ادامه می‌دهد
+                    // در صورت خطا، اسپینر جدید همچنان به کار خود ادامه می‌دهد
                     clearTimeout(logoLoadAttempt);
                 };
             }
