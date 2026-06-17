@@ -62,7 +62,8 @@
     </script>
     <!-- ===================================== -->
 
-    <!-- فونت وزیرمتن -->
+    <!-- Preload فونت وزیرمتن برای افزایش سرعت بارگذاری -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     
     <!-- Tailwind CSS -->
@@ -105,21 +106,54 @@
             scroll-behavior: smooth;
         }
 
-        /* لودینگ (Preloader) و چرخش دور آیکون */
+        /* لودینگ (Preloader) - حالتی کاملاً CSS محور با مکعب روبیک */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #0f172a; z-index: 9999;
             display: flex; justify-content: center; align-items: center; flex-direction: column;
             transition: opacity 0.5s ease;
         }
-        .loader-ring {
-            width: 100px; height: 100px; 
-            border: 3px solid rgba(212, 175, 55, 0.1);
-            border-top: 3px solid #d4af37; 
-            border-radius: 50%;
-            animation: spin 1.2s linear infinite;
+        
+        /* مکعب روبیک چرخان (جایگزین تصویر در صورت لود نشدن) */
+        .cube-wrapper {
+            width: 60px;
+            height: 60px;
+            perspective: 200px;
+            margin-bottom: 1.5rem;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: cubeSpin 3s infinite ease-in-out;
+        }
+        .face {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #d4af37;
+            background-color: rgba(15, 23, 42, 0.9);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+        .front  { transform: rotateY(0deg) translateZ(30px); }
+        .back   { transform: rotateY(180deg) translateZ(30px); }
+        .right  { transform: rotateY(90deg) translateZ(30px); }
+        .left   { transform: rotateY(-90deg) translateZ(30px); }
+        .top    { transform: rotateX(90deg) translateZ(30px); }
+        .bottom { transform: rotateX(-90deg) translateZ(30px); }
+        
+        @keyframes cubeSpin {
+            0%   { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        
+        /* لوگوی جایگزین شونده در صورت بارگذاری سریع */
+        #preloader-logo {
+            width: 60px;
+            height: auto;
+            display: none; /* ابتدا مخفی است */
+        }
 
         /* افکت شیشه‌ای (Glassmorphism) */
         .glass {
@@ -218,12 +252,20 @@
 </head>
 <body class="text-gray-800 antialiased relative">
 
-    <!-- لودینگ صفحه با انیمیشن چرخش به دور آیکون -->
+    <!-- لودینگ صفحه با مکعب روبیک + قابلیت جایگزینی هوشمند با لوگو -->
     <div id="preloader">
-        <div class="relative flex items-center justify-center mb-4">
-            <div class="loader-ring absolute"></div>
-            <img src="https://to-web.ir/image/logo.png" alt="ToWeb Logo" class="w-16 h-auto relative z-10 animate-pulse">
+        <div id="preloader-spinner" class="cube-wrapper">
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
         </div>
+        <!-- لوگو تنها در صورتی که زیر 150ms بارگذاری شود نمایش داده می‌شود -->
+        <img id="preloader-logo" src="https://to-web.ir/image/logo.png" alt="ToWeb Logo">
         <p class="text-brand-gold mt-4 font-bold tracking-widest text-sm">در حال آماده‌سازی...</p>
     </div>
 
@@ -413,8 +455,8 @@
 
                 <!-- نمونه ۳ (قالب ها) -->
                 <div class="bg-brand-dark rounded-2xl overflow-hidden shadow-lg border border-brand-dark group flex flex-col justify-center items-center text-center p-8 relative" data-aos="fade-up" data-aos-delay="300">
-                    <!-- نکته: این تصویر پس‌زمینه برای زیبایی بصری قالب حفظ شده است -->
-                    <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1507238692062-730cc00d936f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')] bg-cover bg-center" loading="lazy"></div>
+                    <!-- جایگزینی تصویر Unsplash با یک گرادیانت CSS سبک و زیبا -->
+                    <div class="absolute inset-0 opacity-20" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
                     <div class="relative z-10">
                         <i class="fas fa-layer-group text-5xl text-brand-gold mb-6"></i>
                         <h3 class="font-bold text-2xl text-white mb-4">تنوع بی‌نظیر قالب‌ها</h3>
@@ -609,53 +651,94 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- AOS با defer برای عدم انسداد رندر -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script>
-        // تابع مخفی کردن لودینگ
-        function hidePreloader() {
-            const preloader = document.getElementById('preloader');
-            if (preloader && preloader.style.display !== 'none') {
+        // ========================
+        // مدیریت هوشمند لودینگ (حداکثر 2 ثانیه)
+        // ========================
+        (function() {
+            var preloader = document.getElementById('preloader');
+            var spinner = document.getElementById('preloader-spinner');
+            var logoImg = document.getElementById('preloader-logo');
+            var hideTimeout;
+            var preloaderHidden = false;
+            var logoShown = false;
+
+            // تابع مخفی‌سازی لودینگ
+            function hidePreloader() {
+                if (preloaderHidden) return;
+                preloaderHidden = true;
+                if (hideTimeout) clearTimeout(hideTimeout);
                 preloader.style.opacity = '0';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
+                setTimeout(function() {
+                    if (preloader) preloader.style.display = 'none';
                 }, 500);
             }
-        }
 
-        // تایمر اصلی: لودینگ حداکثر 2 ثانیه بعد از شروع بارگذاری صفحه مخفی می‌شود
-        const maxLoadingTimer = setTimeout(() => {
-            hidePreloader();
-        }, 2000);
+            // تلاش برای بارگذاری لوگو فقط در 150 میلی‌ثانیه اول
+            var logoLoadAttempt = setTimeout(function() {
+                // اگر لوگو در این مدت بارگذاری نشده بود، مکعب به‌عنوان لودینگ نهایی تثبیت می‌شود
+                if (!logoShown) {
+                    // دیگر منتظر لوگو نمی‌مانیم
+                }
+            }, 150);
 
-        // اگر همه منابع (از جمله تصاویر) زودتر از 2 ثانیه کامل لود شدند، لودینگ را سریع‌تر مخفی کن
-        window.addEventListener('load', function() {
-            // لغو تایمر 2 ثانیه‌ای چون صفحه کامل لود شده
-            clearTimeout(maxLoadingTimer);
-            hidePreloader();
-            
-            // راه‌اندازی انیمیشن‌های AOS
-            AOS.init({
-                once: true, // انیمیشن‌ها فقط یکبار اجرا شوند
-                offset: 50,
-                duration: 800,
-                easing: 'ease-out-cubic',
+            if (logoImg) {
+                logoImg.onload = function() {
+                    if (!logoShown && !preloaderHidden) {
+                        logoShown = true;
+                        clearTimeout(logoLoadAttempt);
+                        // نمایش لوگو و مخفی‌سازی مکعب
+                        if (spinner) spinner.style.display = 'none';
+                        logoImg.style.display = 'block';
+                    }
+                };
+                logoImg.onerror = function() {
+                    // در صورت خطا، مکعب به کار خود ادامه می‌دهد
+                    clearTimeout(logoLoadAttempt);
+                };
+            }
+
+            // مکانیزم قطعی مخفی‌سازی:
+            // 1. اگر تمام منابع زودتر بارگذاری شوند
+            window.addEventListener('load', function() {
+                hidePreloader();
             });
 
-            // نمایش پیام شناور (Tooltip) دقیقا 5 ثانیه پس از لود صفحه
-            setTimeout(() => {
-                const tooltip = document.getElementById('fabTooltip');
-                if(tooltip) {
+            // 2. تایمر پشتیبان: حداکثر 2 ثانیه پس از آماده شدن DOM
+            document.addEventListener('DOMContentLoaded', function() {
+                hideTimeout = setTimeout(function() {
+                    hidePreloader();
+                }, 2000);
+            });
+
+            // راه‌اندازی AOS
+            window.addEventListener('load', function() {
+                if (typeof AOS !== 'undefined') {
+                    AOS.init({
+                        once: true,
+                        offset: 50,
+                        duration: 800,
+                        easing: 'ease-out-cubic',
+                    });
+                }
+            });
+
+            // نمایش تولتیپ دکمه شناور پس از 5 ثانیه
+            setTimeout(function() {
+                var tooltip = document.getElementById('fabTooltip');
+                if (tooltip) {
                     tooltip.classList.add('show');
                 }
             }, 5000);
-        });
+        })();
 
         // تغییر استایل منو هنگام اسکرول
         window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
+            var navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
                 navbar.classList.add('shadow-md');
-                navbar.classList.replace('py-4', 'py-0'); // جمع تر شدن منو
             } else {
                 navbar.classList.remove('shadow-md');
             }
@@ -663,11 +746,11 @@
 
         // عملکرد آکاردئون برای سوالات متداول
         function toggleFaq(button) {
-            const item = button.parentElement;
+            var item = button.parentElement;
             
             // بستن سایر سوالات
-            const allItems = document.querySelectorAll('.faq-item');
-            allItems.forEach(i => {
+            var allItems = document.querySelectorAll('.faq-item');
+            allItems.forEach(function(i) {
                 if (i !== item && i.classList.contains('active')) {
                     i.classList.remove('active');
                 }
