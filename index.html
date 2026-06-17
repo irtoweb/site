@@ -611,15 +611,29 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // مخفی کردن لودینگ بعد از لود کامل صفحه
-        window.addEventListener('load', function() {
+        // تابع مخفی کردن لودینگ
+        function hidePreloader() {
             const preloader = document.getElementById('preloader');
-            preloader.style.opacity = '0';
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 500);
+            if (preloader && preloader.style.display !== 'none') {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        }
+
+        // تایمر اصلی: لودینگ حداکثر 2 ثانیه بعد از شروع بارگذاری صفحه مخفی می‌شود
+        const maxLoadingTimer = setTimeout(() => {
+            hidePreloader();
+        }, 2000);
+
+        // اگر همه منابع (از جمله تصاویر) زودتر از 2 ثانیه کامل لود شدند، لودینگ را سریع‌تر مخفی کن
+        window.addEventListener('load', function() {
+            // لغو تایمر 2 ثانیه‌ای چون صفحه کامل لود شده
+            clearTimeout(maxLoadingTimer);
+            hidePreloader();
             
-            // راه‌اندازی انیمیشن‌ها
+            // راه‌اندازی انیمیشن‌های AOS
             AOS.init({
                 once: true, // انیمیشن‌ها فقط یکبار اجرا شوند
                 offset: 50,
