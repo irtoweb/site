@@ -7,6 +7,9 @@
   
   <!-- فونت وزیرمتن -->
   <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.2/misc/Farsi-Digits/Vazirmatn-FD-font-face.css" rel="stylesheet">
+  
+  <!-- اضافه شدن کتابخانه آیکون‌های استاندارد (FontAwesome) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     /* ----- Global Reset ----- */
@@ -70,7 +73,7 @@
       width: 100%;
     }
 
-    /* ----- Professional Luxurious Preloader ----- */
+    /* ----- Professional Luxurious Preloader (ویرایش شده: لوکس، سبک و مینیمال) ----- */
     #preloader {
       position: fixed;
       inset: 0;
@@ -86,13 +89,33 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 25px;
+      position: relative;
+    }
+
+    /* حلقه طلایی چرخان لوکس */
+    .loader-ring {
+      position: absolute;
+      top: -20px;
+      width: 110px;
+      height: 110px;
+      border: 1px solid transparent;
+      border-top-color: var(--gold-primary);
+      border-bottom-color: var(--gold-primary);
+      border-radius: 50%;
+      animation: spinRing 2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    }
+
+    @keyframes spinRing {
+      0% { transform: rotate(0deg); opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { transform: rotate(360deg); opacity: 0.5; }
     }
 
     .coffee-cup-loader {
-      width: 80px;
-      height: 80px;
+      width: 70px;
+      height: 70px;
       color: var(--gold-primary);
+      z-index: 2;
     }
     
     .steam {
@@ -111,17 +134,18 @@
     }
 
     .preloader-text {
-      font-size: 1.2rem;
-      font-weight: 600;
+      font-size: 1.1rem;
+      font-weight: 700;
       color: var(--text-primary);
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      margin-top: 40px;
       opacity: 0;
-      transform: translateY(15px);
-      animation: fadeUpText 0.8s forwards 0.5s;
+      animation: luxuryTextFade 1.5s infinite alternate ease-in-out;
     }
 
-    @keyframes fadeUpText {
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes luxuryTextFade {
+      from { opacity: 0.4; letter-spacing: 2px; }
+      to { opacity: 1; letter-spacing: 4px; text-shadow: 0 0 10px rgba(197, 160, 89, 0.3); }
     }
 
     /* ----- Header (Glassmorphism) ----- */
@@ -150,7 +174,6 @@
       text-decoration: none;
     }
     
-    /* ویرایش: استایل‌دهی به تصویر لوگوی جدید در هدر */
     .logo img {
       width: 42px;
       height: 42px;
@@ -269,7 +292,7 @@
     .menu-toggle.active span:nth-child(2) { opacity: 0; }
     .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-    /* ----- Floating Buttons ----- */
+    /* ----- Floating Buttons (ویرایش شده: سایز بزرگتر، حذف موج، اضافه شدن سایه درخشان لوکس) ----- */
     .floating-buttons {
       position: fixed;
       bottom: 30px;
@@ -282,8 +305,8 @@
     }
     
     .fab {
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -291,34 +314,24 @@
       position: relative;
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       transition: var(--transition-smooth);
+      color: white;
+      font-size: 1.8rem;
+      text-decoration: none;
     }
     
-    .fab svg {
-      width: 28px;
-      height: 28px;
-      fill: white;
-    }
-    
-    .fab::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 2px solid currentColor;
-      opacity: 0;
-      animation: pulse-ring 2s infinite;
-    }
-    
-    .fab:hover { transform: translateY(-5px) scale(1.05); }
-    
-    @keyframes pulse-ring {
-      0% { transform: scale(0.9); opacity: 0.7; }
-      100% { transform: scale(1.4); opacity: 0; }
+    .fab:hover { 
+      transform: translateY(-5px) scale(1.08); 
+      color: white;
     }
     
     .fab-wa { background: #25D366; }
+    .fab-wa:hover { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); }
+    
     .fab-ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .fab-ig:hover { box-shadow: 0 10px 30px rgba(220, 39, 67, 0.4); }
+    
     .fab-call { background: var(--text-primary); }
+    .fab-call:hover { box-shadow: 0 10px 30px rgba(51, 35, 27, 0.4); }
 
     /* ----- Hero Section ----- */
     .hero {
@@ -326,7 +339,6 @@
       min-height: 95vh;
       display: flex;
       align-items: center;
-      /* ویرایش: حذف تصویر خارجی و استفاده از تصویر داخلی شما */
       background: url('https://to-web.ir/cafe/hiro.jpg') center/cover no-repeat;
     }
     
@@ -607,7 +619,7 @@
       flex-wrap: wrap;
     }
     
-    /* دکمه‌های مسیریابی بسیار حرفه‌ای و لوکس */
+    /* دکمه‌های مسیریابی بسیار حرفه‌ای و لوکس (ویرایش شده: تغییر به رنگ سازمانی دقیق و آیکون استاندارد) */
     .nav-btn {
       display: inline-flex;
       align-items: center;
@@ -617,7 +629,7 @@
       border-radius: 20px;
       text-decoration: none;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 1.05rem;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
       transition: var(--transition-smooth);
       color: white;
@@ -627,10 +639,18 @@
     .nav-btn:hover {
       transform: translateY(-5px);
       box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      color: white;
+    }
+
+    .nav-btn i {
+      font-size: 1.2rem;
     }
     
-    .balad-btn { background: #E84C50; }
-    .neshan-btn { background: #1E3050; }
+    .balad-btn { background: #27ae60; } /* رنگ سازمانی بلد */
+    .balad-btn:hover { box-shadow: 0 15px 30px rgba(39, 174, 96, 0.3); }
+
+    .neshan-btn { background: #0050FF; } /* رنگ سازمانی نشان */
+    .neshan-btn:hover { box-shadow: 0 15px 30px rgba(0, 80, 255, 0.3); }
 
     /* ----- Footer ----- */
     .site-footer {
@@ -683,6 +703,7 @@
       gap: 15px;
     }
     
+    /* ویرایش استایل برای آیکون‌های استاندارد در فوتر */
     .social-icons a {
       width: 45px;
       height: 45px;
@@ -693,21 +714,15 @@
       justify-content: center;
       transition: var(--transition-smooth);
       border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .social-icons a svg {
-      width: 22px;
-      height: 22px;
-      fill: var(--gold-primary);
+      text-decoration: none;
+      color: var(--gold-primary);
+      font-size: 1.3rem;
     }
     
     .social-icons a:hover {
       background: var(--gold-primary);
       transform: translateY(-5px);
-    }
-    
-    .social-icons a:hover svg {
-      fill: var(--text-primary);
+      color: var(--text-primary);
     }
     
     .copyright {
@@ -735,9 +750,11 @@
       .footer-grid { grid-template-columns: 1fr; text-align: center; }
       .footer-brand p { margin: 0 auto; }
       .social-icons { justify-content: center; }
+      
+      /* تنظیم مجدد سایز دکمه‌های شناور در موبایل */
       .floating-buttons { bottom: 20px; left: 20px; gap: 12px; }
-      .fab { width: 50px; height: 50px; }
-      .fab svg { width: 22px; height: 22px; }
+      .fab { width: 55px; height: 55px; font-size: 1.5rem; }
+      
       section { padding: 70px 0; }
       .nav-buttons { justify-content: center; }
     }
@@ -753,20 +770,20 @@
 </head>
 <body>
 
-  <!-- Preloader -->
+  <!-- Preloader (طراحی کاملا جدید، لوکس و ظریف) -->
   <div id="preloader">
     <div class="preloader-content">
-      <!-- SVG قهوه در حال بخار دادن و لوکس (بدون هیچ تغییری) -->
-      <svg class="coffee-cup-loader" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <div class="loader-ring"></div>
+      <svg class="coffee-cup-loader" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 20V12" class="steam" />
         <path d="M32 20V10" class="steam" />
         <path d="M46 20V14" class="steam" />
-        <path d="M12 25h40v14a12 12 0 0 1-12 12H24a12 12 0 0 1-12-12V25z" fill="rgba(197, 160, 89, 0.1)"/>
+        <path d="M12 25h40v14a12 12 0 0 1-12 12H24a12 12 0 0 1-12-12V25z" fill="rgba(197, 160, 89, 0.05)"/>
         <path d="M52 30h4a6 6 0 0 1 0 12h-4" />
         <path d="M8 56h48" />
       </svg>
       <div class="preloader-text">
-        کافه نادیا ...
+        کافه نادیا
       </div>
     </div>
   </div>
@@ -774,7 +791,6 @@
   <!-- Header -->
   <header class="site-header">
     <div class="container header-inner">
-      <!-- ویرایش: استفاده از لوگوی واقعی (فایل آفلاین) بجای آیکون SVG در هدر -->
       <a href="#" class="logo">
         <img src="https://to-web.ir/cafe/logo.png" alt="لوگو کافه نادیا">
         <span>کافه نادیا</span>
@@ -811,7 +827,8 @@
         <p>فنجانی چای گرم، لحظاتی خلوت و گفت‌وگوهایی از ته دل. نادیا، خانه‌ی امن شما برای ساختن خاطرات شیرین است.</p>
         <a href="#contact" class="btn-primary">
           رزرو میز و مسیریابی
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <!-- جایگزینی آیکون SVG با FontAwesome -->
+          <i class="fa-solid fa-arrow-left"></i>
         </a>
       </div>
     </section>
@@ -827,7 +844,6 @@
             <p>فضایی که در آن می‌توانید کتاب بخوانید، با دوستانتان معاشرت کنید، کارهای روزمره‌تان را انجام دهید و از طعم‌های بی‌نظیر منوی اختصاصی ما لذت ببرید.</p>
           </div>
           <div class="about-image">
-            <!-- ویرایش: جایگزینی با تصویر لوکال -->
             <img src="https://to-web.ir/cafe/fazayegarmecafe.jpg" alt="فضای گرم کافه نادیا">
           </div>
         </div>
@@ -842,7 +858,6 @@
         <div class="services-grid">
           
           <div class="service-card">
-            <!-- ویرایش: جایگزینی با تصویر لوکال -->
             <img src="https://to-web.ir/cafe/qahvevanoshidani.jpg" alt="قهوه و نوشیدنی" class="service-card-img">
             <div class="service-overlay"></div>
             <div class="service-content">
@@ -852,7 +867,6 @@
           </div>
 
           <div class="service-card">
-            <!-- ویرایش: جایگزینی با تصویر لوکال -->
             <img src="https://to-web.ir/cafe/Ketab.jpg" alt="گوشه مطالعه" class="service-card-img">
             <div class="service-overlay"></div>
             <div class="service-content">
@@ -862,7 +876,6 @@
           </div>
 
           <div class="service-card">
-            <!-- ویرایش: جایگزینی با تصویر لوکال -->
             <img src="https://to-web.ir/cafe/fazayedenj.jpg" alt="رویدادهای فرهنگی" class="service-card-img">
             <div class="service-overlay"></div>
             <div class="service-content">
@@ -872,7 +885,6 @@
           </div>
 
           <div class="service-card">
-            <!-- ویرایش: جایگزینی با تصویر لوکال تکراری جهت پر کردن تصویر چهارم -->
             <img src="https://to-web.ir/cafe/qahvevanoshidani.jpg" alt="شیرینی خانگی" class="service-card-img">
             <div class="service-overlay"></div>
             <div class="service-content">
@@ -891,7 +903,6 @@
         <h2 class="section-title">نگارخانه نادیا</h2>
         <p class="section-subtitle">قاب‌هایی از زیبایی‌های ساده</p>
         <div class="gallery-grid">
-          <!-- ویرایش: جایگزینی تمام تصاویر نگارخانه با تصاویر لوکال شما -->
           <div class="gallery-item"><img src="https://to-web.ir/cafe/kahvasaz.jpg" alt="قهوه ساز"></div>
           <div class="gallery-item"><img src="https://to-web.ir/cafe/Fazayedenj.jpg" alt="فضای دنج"></div>
           <div class="gallery-item"><img src="https://to-web.ir/cafe/fazayegarmecafe.jpg" alt="دوستانه"></div>
@@ -907,12 +918,10 @@
         <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
           <div class="testimonial-card">
             <p class="testimonial-text">"اولین باری بود که انقدر راحت و بدون استرس توی یه کافه نشستم. موسیقی ملایم و رفتار صمیمی پرسنل واقعاً حالم رو خوب کرد."</p>
-            <!-- ویرایش: تصحیح نام مطابق دستور -->
             <div class="testimonial-author">مریم</div>
           </div>
           <div class="testimonial-card">
             <p class="testimonial-text">"کیک هویجشون بی‌نظیره! فضای کافه برای دورهمی‌های کوچیک کتاب‌خوانی ما بهترین انتخاب بود. ممنون از تیم خوب نادیا."</p>
-            <!-- ویرایش: تصحیح نام مطابق دستور -->
             <div class="testimonial-author">سارا</div>
           </div>
         </div>
@@ -935,14 +944,14 @@
           <div class="contact-info">
             <p>برای هماهنگی پیش از حضور، اطلاع از رویدادها یا رزرو فضاهای اختصاصی برای تولد و دورهمی، با ما تماس بگیرید. ما همیشه پاسخگوی شما هستیم.</p>
             
-            <!-- دکمه‌های مسیریابی بسیار حرفه‌ای -->
+            <!-- دکمه‌های مسیریابی با آیکون‌های استاندارد و استایل سازمانی اپلیکیشن‌ها -->
             <div class="nav-buttons">
               <a href="https://balad.ir/location?latitude=35.7000&longitude=51.4160" target="_blank" class="nav-btn balad-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <i class="fa-solid fa-map-location-dot"></i>
                 مسیریابی با بلد
               </a>
               <a href="https://nshn.ir/35.7000,51.4160" target="_blank" class="nav-btn neshan-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <i class="fa-solid fa-location-arrow"></i>
                 مسیریابی با نشان
               </a>
             </div>
@@ -951,7 +960,6 @@
               <h4 style="margin-bottom: 5px;">تلفن تماس:</h4>
               <p style="margin: 0; font-weight: bold; color: var(--text-primary);">۰۲۱-۱۲۳۴۵۶۷۸</p>
               
-              <!-- ویرایش: اضافه کردن آدرس زیر تلفن -->
               <h4 style="margin-bottom: 5px; margin-top: 15px;">آدرس:</h4>
               <p style="margin: 0; font-weight: bold; color: var(--text-primary);">تهران، خیابان فرشته، کوچه نادیا، پلاک ۱۲</p>
             </div>
@@ -979,17 +987,15 @@
         <div class="footer-links">
           <h4>راه‌های ارتباطی</h4>
           <div class="social-icons" style="margin-top: 15px;">
-            <!-- واتساپ -->
+            <!-- جایگزینی کدهای طولانی SVG با آیکون‌های استاندارد FontAwesome -->
             <a href="https://wa.me/980000000000" target="_blank" aria-label="واتساپ">
-              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              <i class="fa-brands fa-whatsapp"></i>
             </a>
-            <!-- اینستاگرام -->
             <a href="https://instagram.com/cafenadia" target="_blank" aria-label="اینستاگرام">
-              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.618-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              <i class="fa-brands fa-instagram"></i>
             </a>
-            <!-- تماس -->
             <a href="tel:+980000000000" aria-label="تماس تلفنی">
-              <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.1-.21c1.21.49 2.53.76 3.9.76.55 0 1 .45 1 1v3.5c0 .55-.45 1-1 1C10.07 21.28 2.72 13.93 2.72 3.5c0-.55.45-1 1-1H7.2c.55 0 1 .45 1 1 0 1.37.27 2.69.76 3.9.13.34.03.72-.21 1.1l-2.13 2.29z"/></svg>
+              <i class="fa-solid fa-phone-flip"></i>
             </a>
           </div>
         </div>
@@ -998,11 +1004,18 @@
     </div>
   </footer>
 
-  <!-- Floating Buttons (Hide near footer) -->
+  <!-- Floating Buttons -->
   <div class="floating-buttons" id="floatingButtons">
-    <a href="https://wa.me/980000000000" class="fab fab-wa" target="_blank" aria-label="واتساپ"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
-    <a href="https://instagram.com/cafenadia" class="fab fab-ig" target="_blank" aria-label="اینستاگرام"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.618-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-    <a href="tel:+980000000000" class="fab fab-call" aria-label="تماس تلفنی"><svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.1-.21c1.21.49 2.53.76 3.9.76.55 0 1 .45 1 1v3.5c0 .55-.45 1-1 1C10.07 21.28 2.72 13.93 2.72 3.5c0-.55.45-1 1-1H7.2c.55 0 1 .45 1 1 0 1.37.27 2.69.76 3.9.13.34.03.72-.21 1.1l-2.13 2.29z"/></svg></a>
+    <!-- جایگزینی با کلاس‌های استاندارد آیکون -->
+    <a href="https://wa.me/980000000000" class="fab fab-wa" target="_blank" aria-label="واتساپ">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <a href="https://instagram.com/cafenadia" class="fab fab-ig" target="_blank" aria-label="اینستاگرام">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+    <a href="tel:+980000000000" class="fab fab-call" aria-label="تماس تلفنی">
+      <i class="fa-solid fa-phone"></i>
+    </a>
   </div>
 
   <script>
